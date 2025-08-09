@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: crypto-analysis-app
+    env: docker
+    dockerfilePath: Dockerfile
+    plan: starter
+    envVars:
+      - key: PYTHONUNBUFFERED
+        value: "1"
+
