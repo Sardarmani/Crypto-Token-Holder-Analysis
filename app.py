@@ -30,37 +30,25 @@ def get_chrome_version():
     return 138  # Default fallback
 
 def create_chrome_driver():
-    """Create Chrome driver with version compatibility"""
     chrome_version = get_chrome_version()
     st.write(f"🔍 Detected Chrome version: {chrome_version}")
-    
+
     options = uc.ChromeOptions()
-    options.binary_location = "/usr/bin/chromium"  # Path for Render
-    options.add_argument("--headless=new")         # Headless mode (no window)
-    options.headless = False  # Non-headless for Render compatibility
-    options.add_argument("--no-first-run --no-service-autorun --password-store=basic")
-    options.add_argument("--disable-blink-features=AutomationControlled")
-    options.add_argument("--disable-dev-shm-usage")
+    options.binary_location = "/usr/bin/chromium"
+    options.add_argument("--headless=new")
     options.add_argument("--no-sandbox")
+    options.add_argument("--disable-dev-shm-usage")
     options.add_argument("--disable-gpu")
-    
+    options.add_argument("--disable-blink-features=AutomationControlled")
+
     try:
-        driver = uc.Chrome(options=options, version_main=chrome_version)
+        driver = uc.Chrome(options=options)
         st.write("✅ Chrome driver created successfully")
         return driver
-    except SessionNotCreatedException as e:
-        st.write(f"⚠️ Version mismatch detected: {e}")
-        st.write("🔄 Trying with auto-download...")
-        try:
-            driver = uc.Chrome(options=options)
-            st.write("✅ Chrome driver created with auto-download")
-            return driver
-        except Exception as e2:
-            st.error(f"❌ Failed to create driver: {e2}")
-            raise e2
     except Exception as e:
         st.error(f"❌ Error creating Chrome driver: {e}")
         raise e
+
 
 def get_token_info_from_map(symbol, cmc_api_key):
     """Get contract address from CoinMarketCap API"""
