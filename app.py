@@ -35,6 +35,8 @@ def create_chrome_driver():
     st.write(f"🔍 Detected Chrome version: {chrome_version}")
     
     options = uc.ChromeOptions()
+    options.binary_location = "/usr/bin/chromium"  # Path for Render
+    options.add_argument("--headless=new")         # Headless mode (no window)
     options.headless = False  # Non-headless for Render compatibility
     options.add_argument("--no-first-run --no-service-autorun --password-store=basic")
     options.add_argument("--disable-blink-features=AutomationControlled")
